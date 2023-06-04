@@ -25,13 +25,13 @@ public class DesktopComputerController {
         return ResponseEntity.ok(desktopComputerService.addNewProduct(dto));
     }
 
-    @PatchMapping("/{serialNumber}")
+    @PatchMapping("/{serNum}")
     private ResponseEntity<?> updateDesktopComputer(@PathVariable String serNum,
                                                     @RequestBody DesktopComputerDto dto) {
         return ResponseEntity.ok(desktopComputerService.updateProduct(serNum, dto));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{serNum}")
     public ResponseEntity<?> getComputerById(@PathVariable String serNum) {
         return ResponseEntity.ok(desktopComputerService.getProduct(serNum));
     }

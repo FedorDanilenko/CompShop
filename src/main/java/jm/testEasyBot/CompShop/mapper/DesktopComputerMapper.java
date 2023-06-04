@@ -8,7 +8,7 @@ import org.mapstruct.factory.Mappers;
 @Mapper(componentModel = "spring")
 public interface DesktopComputerMapper {
 
-    DesktopComputerMapper INSTANCE = Mappers.getMapper(DesktopComputerMapper.class);
+    DesktopComputerMapper IN = Mappers.getMapper(DesktopComputerMapper.class);
 
     DesktopComputerDto toDto(DesktopComputer desktopComputer);
     DesktopComputer toEntity(DesktopComputerDto dto);

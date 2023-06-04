@@ -25,7 +25,7 @@ public abstract class Product {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "series_number")
+    @Column(name = "series_number", unique = true)
     private String serialNumber;
 
     @Column(name = "manufacturer")

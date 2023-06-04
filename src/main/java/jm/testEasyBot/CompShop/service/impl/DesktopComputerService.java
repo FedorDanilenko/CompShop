@@ -22,14 +22,14 @@ public class DesktopComputerService implements ProductService<DesktopComputerDto
     @Override
     public List<DesktopComputerDto> getAllProducts() {
         return desktopComputerRepo.findAll().stream()
-            .map(DesktopComputerMapper.INSTANCE::toDto)
+            .map(DesktopComputerMapper.IN::toDto)
             .toList();
     }
 
     @Override
     public DesktopComputerDto getProduct(String serNum) {
         try {
-        return DesktopComputerMapper.INSTANCE.toDto(desktopComputerRepo.findBySerialNumber(serNum));
+        return DesktopComputerMapper.IN.toDto(desktopComputerRepo.findBySerialNumber(serNum));
         } catch (DataAccessException ex) {
            throw  new NotFoundException("Desktop computer not found");
         }
@@ -38,13 +38,13 @@ public class DesktopComputerService implements ProductService<DesktopComputerDto
 
     @Override
     public DesktopComputerDto addNewProduct(DesktopComputerDto dto) {
+        System.out.println(DesktopComputerMapper.IN.toEntity(dto));
         try {
-            return DesktopComputerMapper.INSTANCE.toDto(
-                desktopComputerRepo.save(DesktopComputerMapper.INSTANCE.toEntity(dto))
+            return DesktopComputerMapper.IN.toDto(
+                desktopComputerRepo.save(DesktopComputerMapper.IN.toEntity(dto))
             );
         } catch (DataAccessException ex) {
-            throw new AlreadyExistsException(ex.getMessage());
-//            throw new AlreadyExistsException("Computer with this serial number already exists");
+            throw new AlreadyExistsException("Computer with this serial number already exists");
         }
     }
 
@@ -56,7 +56,7 @@ public class DesktopComputerService implements ProductService<DesktopComputerDto
         existComp.setManufacturer(dto.getManufacturer());
         existComp.setPrice(dto.getPrice());
         existComp.setQuantity(dto.getQuantity());
-        return DesktopComputerMapper.INSTANCE.toDto(
+        return DesktopComputerMapper.IN.toDto(
             desktopComputerRepo.save(existComp)
         );
     }
