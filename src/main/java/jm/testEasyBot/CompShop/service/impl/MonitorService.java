@@ -55,8 +55,12 @@ public class MonitorService implements ProductService<MonitorDto> {
         existProd.setManufacturer(dto.getManufacturer());
         existProd.setPrice(dto.getPrice());
         existProd.setQuantity(dto.getQuantity());
-        return MonitorMapper.MAPPER.toDto(
-            monitorRepo.save(existProd)
-        );
+        try {
+            return MonitorMapper.MAPPER.toDto(
+                monitorRepo.save(existProd)
+            );
+        } catch (DataAccessException ex) {
+            throw new AlreadyExistsException("Monitor with this serial number already exists");
+        }
     }
 }

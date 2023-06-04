@@ -55,8 +55,12 @@ public class LaptopService implements ProductService<LaptopDto> {
         existProd.setManufacturer(dto.getManufacturer());
         existProd.setPrice(dto.getPrice());
         existProd.setQuantity(dto.getQuantity());
-        return LaptopMapper.MAPPER.toDto(
-            laptopRepo.save(existProd)
-        );
+        try {
+            return LaptopMapper.MAPPER.toDto(
+                laptopRepo.save(existProd)
+            );
+        } catch (DataAccessException ex) {
+            throw new AlreadyExistsException("Laptop with this serial number already exists");
+        }
     }
 }

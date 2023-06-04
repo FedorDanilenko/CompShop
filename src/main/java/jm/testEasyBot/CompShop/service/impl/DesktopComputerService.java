@@ -51,12 +51,16 @@ public class DesktopComputerService implements ProductService<DesktopComputerDto
     public DesktopComputerDto updateProduct(String serialNumber, DesktopComputerDto dto) {
         DesktopComputer existProd = desktopComputerRepo.findBySerialNumber(serialNumber);
         existProd.setSerialNumber(dto.getSerialNumber());
-        existProd.setFromFactor(dto.getFromFactor());
+        existProd.setFormFactor(dto.getFormFactor());
         existProd.setManufacturer(dto.getManufacturer());
         existProd.setPrice(dto.getPrice());
         existProd.setQuantity(dto.getQuantity());
-        return DesktopComputerMapper.MAPPER.toDto(
-            desktopComputerRepo.save(existProd)
-        );
+        try {
+            return DesktopComputerMapper.MAPPER.toDto(
+                desktopComputerRepo.save(existProd)
+            );
+        } catch (DataAccessException ex) {
+            throw new AlreadyExistsException("Computer with this serial number already exists");
+        }
     }
 }

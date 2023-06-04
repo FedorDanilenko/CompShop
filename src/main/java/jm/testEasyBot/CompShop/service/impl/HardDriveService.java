@@ -55,8 +55,12 @@ public class HardDriveService implements ProductService<HardDriveDto> {
         existProd.setManufacturer(dto.getManufacturer());
         existProd.setPrice(dto.getPrice());
         existProd.setQuantity(dto.getQuantity());
-        return HardDriveMapper.MAPPER.toDto(
-            hardDriveRepo.save(existProd)
-        );
+        try {
+            return HardDriveMapper.MAPPER.toDto(
+                hardDriveRepo.save(existProd)
+            );
+        } catch (DataAccessException ex) {
+            throw new AlreadyExistsException("Hard drive with this serial number already exists");
+        }
     }
 }

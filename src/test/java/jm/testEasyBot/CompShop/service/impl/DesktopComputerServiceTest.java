@@ -1,8 +1,8 @@
-package jm.testEasyBot.CompShop.service;
+package jm.testEasyBot.CompShop.service.impl;
 
 import jm.testEasyBot.CompShop.dto.DesktopComputerDto;
 import jm.testEasyBot.CompShop.models.DesktopComputer;
-import jm.testEasyBot.CompShop.models.enums.FromFactor;
+import jm.testEasyBot.CompShop.models.enums.FormFactor;
 import jm.testEasyBot.CompShop.repository.DesktopComputerRepo;
 import jm.testEasyBot.CompShop.service.impl.DesktopComputerService;
 import org.junit.jupiter.api.Test;
@@ -29,7 +29,7 @@ class DesktopComputerServiceTest {
         dto.setManufacturer("Example Manufacturer");
         dto.setPrice(1000);
         dto.setQuantity(10L);
-        dto.setFromFactor(FromFactor.DESKTOP);
+        dto.setFormFactor(FormFactor.DESKTOP);
 
         desktopComputerService.addNewProduct(dto);
 
@@ -37,7 +37,7 @@ class DesktopComputerServiceTest {
         DesktopComputer desktopComputer = desktopComputers.get(0);
 
         assertEquals(1, desktopComputers.size());
-        assertEquals("DESKTOP", desktopComputer.getFromFactor().toString());
+        assertEquals("DESKTOP", desktopComputer.getFormFactor().toString());
         assertEquals("123456789", desktopComputer.getSerialNumber());
 
     }

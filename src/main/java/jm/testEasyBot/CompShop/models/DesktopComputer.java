@@ -2,7 +2,7 @@ package jm.testEasyBot.CompShop.models;
 
 
 import jakarta.persistence.Column;
-import jm.testEasyBot.CompShop.models.enums.FromFactor;
+import jm.testEasyBot.CompShop.models.enums.FormFactor;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -23,5 +23,5 @@ public class DesktopComputer extends Product {
 
     @Column(name = "from_factor")
     @Enumerated(EnumType.STRING)
-    private FromFactor fromFactor;
+    private FormFactor formFactor;
 }
