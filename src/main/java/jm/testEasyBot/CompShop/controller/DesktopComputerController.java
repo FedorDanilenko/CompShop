@@ -35,6 +35,7 @@ public class DesktopComputerController {
     public ResponseEntity<?> getComputerById(@PathVariable String serNum) {
         return ResponseEntity.ok(desktopComputerService.getProduct(serNum));
     }
+
     @GetMapping
     public ResponseEntity<?> getAllDesktopComputers() {
         return ResponseEntity.ok(desktopComputerService.getAllProducts());

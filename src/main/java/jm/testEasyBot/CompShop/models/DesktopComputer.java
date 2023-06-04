@@ -4,7 +4,6 @@ package jm.testEasyBot.CompShop.models;
 import jakarta.persistence.Column;
 import jm.testEasyBot.CompShop.models.enums.FromFactor;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
