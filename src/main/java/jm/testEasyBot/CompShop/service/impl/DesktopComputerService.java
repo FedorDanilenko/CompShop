@@ -38,7 +38,6 @@ public class DesktopComputerService implements ProductService<DesktopComputerDto
 
     @Override
     public DesktopComputerDto addNewProduct(DesktopComputerDto dto) {
-        System.out.println(DesktopComputerMapper.MAPPER.toEntity(dto));
         try {
             return DesktopComputerMapper.MAPPER.toDto(
                 desktopComputerRepo.save(DesktopComputerMapper.MAPPER.toEntity(dto))
@@ -50,14 +49,14 @@ public class DesktopComputerService implements ProductService<DesktopComputerDto
 
     @Override
     public DesktopComputerDto updateProduct(String serialNumber, DesktopComputerDto dto) {
-        DesktopComputer existComp = desktopComputerRepo.findBySerialNumber(serialNumber);
-        existComp.setSerialNumber(dto.getSerialNumber());
-        existComp.setFromFactor(dto.getFromFactor());
-        existComp.setManufacturer(dto.getManufacturer());
-        existComp.setPrice(dto.getPrice());
-        existComp.setQuantity(dto.getQuantity());
+        DesktopComputer existProd = desktopComputerRepo.findBySerialNumber(serialNumber);
+        existProd.setSerialNumber(dto.getSerialNumber());
+        existProd.setFromFactor(dto.getFromFactor());
+        existProd.setManufacturer(dto.getManufacturer());
+        existProd.setPrice(dto.getPrice());
+        existProd.setQuantity(dto.getQuantity());
         return DesktopComputerMapper.MAPPER.toDto(
-            desktopComputerRepo.save(existComp)
+            desktopComputerRepo.save(existProd)
         );
     }
 }

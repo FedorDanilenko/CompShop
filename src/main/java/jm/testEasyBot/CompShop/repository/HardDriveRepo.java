@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface HardDriveRepo extends JpaRepository<HardDrive, Long> {
+
+    HardDrive findBySerialNumber(String num);
 }
