@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DesktopComputerRepo extends JpaRepository<DesktopComputer, Long> {
+
+    DesktopComputer findBySerialNumber(String num);
 }

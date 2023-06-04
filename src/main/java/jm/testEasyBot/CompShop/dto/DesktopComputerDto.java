@@ -9,6 +9,5 @@ import lombok.EqualsAndHashCode;
 @Data
 public class DesktopComputerDto extends ProductDto{
 
-    public FromFactor fromFactor;
-
+    private FromFactor fromFactor;
 }

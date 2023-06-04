@@ -7,8 +7,8 @@ import lombok.Data;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ProductDto {
 
-    public String serialNumber;
-    public String manufacturer;
-    public int price;
-    public Long quantity;
+    private String serialNumber;
+    private String manufacturer;
+    private int price;
+    private Long quantity;
 }

@@ -8,11 +8,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Entity
-@Data
 @MappedSuperclass
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Product {
 
@@ -22,13 +26,13 @@ public abstract class Product {
     private Long id;
 
     @Column(name = "series_number")
-    private String serialNum;
+    private String serialNumber;
 
     @Column(name = "manufacturer")
     private String manufacturer;
 
     @Column(name = "price")
-    private int prise;
+    private int price;
 
     @Column(name = "quantity")
     private Long quantity;

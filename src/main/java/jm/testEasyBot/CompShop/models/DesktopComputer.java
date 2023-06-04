@@ -19,7 +19,6 @@ import jakarta.persistence.Enumerated;
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Table(name = "Desktop_Computers")
 public class DesktopComputer extends Product {
 
