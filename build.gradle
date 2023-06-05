@@ -37,5 +37,7 @@ dependencies {
 }
 
 tasks.named('test') {
+	jvmArgs '-Djdk.attach.allowAttachSelf=true'
+	jvmArgs '-XX:+StartAttachListener'
 	useJUnitPlatform()
 }

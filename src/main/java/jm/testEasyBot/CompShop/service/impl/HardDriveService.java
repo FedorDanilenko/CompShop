@@ -18,18 +18,19 @@ import java.util.List;
 public class HardDriveService implements ProductService<HardDriveDto> {
 
     private final HardDriveRepo hardDriveRepo;
+    private final HardDriveMapper hardDriveMapper;
 
     @Override
     public List<HardDriveDto> getAllProducts() {
         return hardDriveRepo.findAll().stream()
-            .map(HardDriveMapper.MAPPER::toDto)
+            .map(hardDriveMapper::toDto)
             .toList();
     }
 
     @Override
     public HardDriveDto getProduct(String serNum) {
         try {
-            return HardDriveMapper.MAPPER.toDto(findBySerialNumber(serNum));
+            return hardDriveMapper.toDto(findBySerialNumber(serNum));
         } catch (DataAccessException ex) {
             throw  new NotFoundException("Hard drive not found");
         }
@@ -39,8 +40,8 @@ public class HardDriveService implements ProductService<HardDriveDto> {
     @Override
     public HardDriveDto addNewProduct(HardDriveDto dto) {
         try {
-            return HardDriveMapper.MAPPER.toDto(
-                hardDriveRepo.save(HardDriveMapper.MAPPER.toEntity(dto))
+            return hardDriveMapper.toDto(
+                hardDriveRepo.save(hardDriveMapper.toEntity(dto))
             );
         } catch (DataAccessException ex) {
             throw new AlreadyExistsException("Hard drive with this serial number already exists");
@@ -56,7 +57,7 @@ public class HardDriveService implements ProductService<HardDriveDto> {
         existProd.setPrice(dto.getPrice());
         existProd.setQuantity(dto.getQuantity());
         try {
-            return HardDriveMapper.MAPPER.toDto(
+            return hardDriveMapper.toDto(
                 hardDriveRepo.save(existProd)
             );
         } catch (DataAccessException ex) {

@@ -2,15 +2,29 @@ package jm.testEasyBot.CompShop.mapper;
 
 import jm.testEasyBot.CompShop.dto.DesktopComputerDto;
 import jm.testEasyBot.CompShop.models.DesktopComputer;
-import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
+import org.springframework.stereotype.Component;
 
-@Mapper(componentModel = "spring")
-public interface DesktopComputerMapper {
+@Component
+public class DesktopComputerMapper {
 
-    DesktopComputerMapper MAPPER = Mappers.getMapper(DesktopComputerMapper.class);
-
-    DesktopComputerDto toDto(DesktopComputer desktopComputer);
-    DesktopComputer toEntity(DesktopComputerDto dto);
-
+     public DesktopComputerDto toDto(DesktopComputer entity) {
+        if (entity == null) return null;
+        DesktopComputerDto dto = new DesktopComputerDto();
+        dto.setSerialNumber(entity.getSerialNumber());
+        dto.setManufacturer(entity.getManufacturer());
+        dto.setPrice(entity.getPrice());
+        dto.setQuantity(entity.getQuantity());
+        dto.setFormFactor(entity.getFormFactor());
+        return dto;
+    }
+     public DesktopComputer toEntity(DesktopComputerDto dto) {
+        if (dto == null) return null;
+        DesktopComputer entity = new DesktopComputer();
+        entity.setSerialNumber(dto.getSerialNumber());
+        entity.setManufacturer(dto.getManufacturer());
+        entity.setPrice(dto.getPrice());
+        entity.setQuantity(dto.getQuantity());
+        entity.setFormFactor(dto.getFormFactor());
+        return entity;
+    }
 }

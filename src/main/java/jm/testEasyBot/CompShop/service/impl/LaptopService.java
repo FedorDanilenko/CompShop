@@ -18,18 +18,19 @@ import java.util.List;
 public class LaptopService implements ProductService<LaptopDto> {
 
     private final LaptopRepo laptopRepo;
+    private final LaptopMapper laptopMapper;
 
     @Override
     public List<LaptopDto> getAllProducts() {
         return laptopRepo.findAll().stream()
-            .map(LaptopMapper.MAPPER::toDto)
+            .map(laptopMapper::toDto)
             .toList();
     }
 
     @Override
     public LaptopDto getProduct(String serNum) {
         try {
-            return LaptopMapper.MAPPER.toDto(findBySerialNumber(serNum));
+            return laptopMapper.toDto(findBySerialNumber(serNum));
         } catch (DataAccessException ex) {
             throw  new NotFoundException("Laptop not found");
         }
@@ -39,8 +40,8 @@ public class LaptopService implements ProductService<LaptopDto> {
     @Override
     public LaptopDto addNewProduct(LaptopDto dto) {
         try {
-            return LaptopMapper.MAPPER.toDto(
-                laptopRepo.save(LaptopMapper.MAPPER.toEntity(dto))
+            return laptopMapper.toDto(
+                laptopRepo.save(laptopMapper.toEntity(dto))
             );
         } catch (DataAccessException ex) {
             throw new AlreadyExistsException("Laptop with this serial number already exists");
@@ -56,7 +57,7 @@ public class LaptopService implements ProductService<LaptopDto> {
         existProd.setPrice(dto.getPrice());
         existProd.setQuantity(dto.getQuantity());
         try {
-            return LaptopMapper.MAPPER.toDto(
+            return laptopMapper.toDto(
                 laptopRepo.save(existProd)
             );
         } catch (DataAccessException ex) {

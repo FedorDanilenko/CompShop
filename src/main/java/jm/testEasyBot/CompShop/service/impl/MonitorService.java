@@ -18,18 +18,19 @@ import java.util.List;
 public class MonitorService implements ProductService<MonitorDto> {
 
     private final MonitorRepo monitorRepo;
+    private final MonitorMapper monitorMapper;
 
     @Override
     public List<MonitorDto> getAllProducts() {
         return monitorRepo.findAll().stream()
-            .map(MonitorMapper.MAPPER::toDto)
+            .map(monitorMapper::toDto)
             .toList();
     }
 
     @Override
     public MonitorDto getProduct(String serNum) {
         try {
-            return MonitorMapper.MAPPER.toDto(findBySerialNumber(serNum));
+            return monitorMapper.toDto(findBySerialNumber(serNum));
         } catch (DataAccessException ex) {
             throw new NotFoundException("Monitor not found");
         }
@@ -39,8 +40,8 @@ public class MonitorService implements ProductService<MonitorDto> {
     @Override
     public MonitorDto addNewProduct(MonitorDto dto) {
         try {
-            return MonitorMapper.MAPPER.toDto(
-                monitorRepo.save(MonitorMapper.MAPPER.toEntity(dto))
+            return monitorMapper.toDto(
+                monitorRepo.save(monitorMapper.toEntity(dto))
             );
         } catch (DataAccessException ex) {
             throw new AlreadyExistsException("Monitor with this serial number already exists");
@@ -56,7 +57,7 @@ public class MonitorService implements ProductService<MonitorDto> {
         existProd.setPrice(dto.getPrice());
         existProd.setQuantity(dto.getQuantity());
         try {
-            return MonitorMapper.MAPPER.toDto(
+            return monitorMapper.toDto(
                 monitorRepo.save(existProd)
             );
         } catch (DataAccessException ex) {

@@ -18,18 +18,19 @@ import java.util.List;
 public class DesktopComputerService implements ProductService<DesktopComputerDto> {
 
     private final DesktopComputerRepo desktopComputerRepo;
+    private final DesktopComputerMapper desktopComputerMapper;
 
     @Override
     public List<DesktopComputerDto> getAllProducts() {
         return desktopComputerRepo.findAll().stream()
-            .map(DesktopComputerMapper.MAPPER::toDto)
+            .map(desktopComputerMapper::toDto)
             .toList();
     }
 
     @Override
     public DesktopComputerDto getProduct(String serNum) {
         try {
-            return DesktopComputerMapper.MAPPER.toDto(findBySerialNumber(serNum));
+            return desktopComputerMapper.toDto(findBySerialNumber(serNum));
         } catch (DataAccessException ex) {
             throw new NotFoundException("Desktop computer not found");
         }
@@ -39,8 +40,8 @@ public class DesktopComputerService implements ProductService<DesktopComputerDto
     @Override
     public DesktopComputerDto addNewProduct(DesktopComputerDto dto) {
         try {
-            return DesktopComputerMapper.MAPPER.toDto(
-                desktopComputerRepo.save(DesktopComputerMapper.MAPPER.toEntity(dto))
+            return desktopComputerMapper.toDto(
+                desktopComputerRepo.save(desktopComputerMapper.toEntity(dto))
             );
         } catch (DataAccessException ex) {
             throw new AlreadyExistsException("Computer with this serial number already exists");
@@ -56,7 +57,7 @@ public class DesktopComputerService implements ProductService<DesktopComputerDto
         existProd.setPrice(dto.getPrice());
         existProd.setQuantity(dto.getQuantity());
         try {
-            return DesktopComputerMapper.MAPPER.toDto(
+            return desktopComputerMapper.toDto(
                 desktopComputerRepo.save(existProd)
             );
         } catch (DataAccessException ex) {
