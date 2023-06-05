@@ -3,7 +3,8 @@ WORKDIR /app
 COPY . .
 RUN ./gradlew build
 
-FROM openjdk:17-alpine
+FROM alpine:latest
+RUN apk add openjdk17-jre wget
 WORKDIR /root/
 COPY --from=builder /app/build/libs/CompShop-0.0.1-SNAPSHOT.jar Shop.jar
 EXPOSE 8080
