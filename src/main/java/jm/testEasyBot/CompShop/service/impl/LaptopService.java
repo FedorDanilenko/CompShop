@@ -29,7 +29,7 @@ public class LaptopService implements ProductService<LaptopDto> {
     @Override
     public LaptopDto getProduct(String serNum) {
         try {
-            return LaptopMapper.MAPPER.toDto(laptopRepo.findBySerialNumber(serNum));
+            return LaptopMapper.MAPPER.toDto(findBySerialNumber(serNum));
         } catch (DataAccessException ex) {
             throw  new NotFoundException("Laptop not found");
         }
@@ -49,7 +49,7 @@ public class LaptopService implements ProductService<LaptopDto> {
 
     @Override
     public LaptopDto updateProduct(String serialNumber, LaptopDto dto) {
-        Laptop existProd = laptopRepo.findBySerialNumber(serialNumber);
+        Laptop existProd = findBySerialNumber(serialNumber);
         existProd.setSerialNumber(dto.getSerialNumber());
         existProd.setSize(dto.getSize());
         existProd.setManufacturer(dto.getManufacturer());
@@ -62,5 +62,13 @@ public class LaptopService implements ProductService<LaptopDto> {
         } catch (DataAccessException ex) {
             throw new AlreadyExistsException("Laptop with this serial number already exists");
         }
+    }
+
+    private Laptop findBySerialNumber(String num) {
+        Laptop laptop = laptopRepo.findBySerialNumber(num);
+        if (laptop == null) {
+            throw new NotFoundException("Laptop computer not found");
+        }
+        return laptop;
     }
 }

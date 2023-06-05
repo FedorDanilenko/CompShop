@@ -29,7 +29,7 @@ public class HardDriveService implements ProductService<HardDriveDto> {
     @Override
     public HardDriveDto getProduct(String serNum) {
         try {
-            return HardDriveMapper.MAPPER.toDto(hardDriveRepo.findBySerialNumber(serNum));
+            return HardDriveMapper.MAPPER.toDto(findBySerialNumber(serNum));
         } catch (DataAccessException ex) {
             throw  new NotFoundException("Hard drive not found");
         }
@@ -49,7 +49,7 @@ public class HardDriveService implements ProductService<HardDriveDto> {
 
     @Override
     public HardDriveDto updateProduct(String serialNumber, HardDriveDto dto) {
-        HardDrive existProd = hardDriveRepo.findBySerialNumber(serialNumber);
+        HardDrive existProd = findBySerialNumber(serialNumber);
         existProd.setSerialNumber(dto.getSerialNumber());
         existProd.setCapacity(dto.getCapacity());
         existProd.setManufacturer(dto.getManufacturer());
@@ -62,5 +62,13 @@ public class HardDriveService implements ProductService<HardDriveDto> {
         } catch (DataAccessException ex) {
             throw new AlreadyExistsException("Hard drive with this serial number already exists");
         }
+    }
+
+    private HardDrive findBySerialNumber(String num) {
+        HardDrive hardDrive = hardDriveRepo.findBySerialNumber(num);
+        if (hardDrive == null) {
+            throw new NotFoundException("Hard Drive computer not found");
+        }
+        return hardDrive;
     }
 }

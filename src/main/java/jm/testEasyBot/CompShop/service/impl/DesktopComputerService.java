@@ -29,9 +29,9 @@ public class DesktopComputerService implements ProductService<DesktopComputerDto
     @Override
     public DesktopComputerDto getProduct(String serNum) {
         try {
-        return DesktopComputerMapper.MAPPER.toDto(desktopComputerRepo.findBySerialNumber(serNum));
+            return DesktopComputerMapper.MAPPER.toDto(findBySerialNumber(serNum));
         } catch (DataAccessException ex) {
-           throw  new NotFoundException("Desktop computer not found");
+            throw new NotFoundException("Desktop computer not found");
         }
     }
 
@@ -49,7 +49,7 @@ public class DesktopComputerService implements ProductService<DesktopComputerDto
 
     @Override
     public DesktopComputerDto updateProduct(String serialNumber, DesktopComputerDto dto) {
-        DesktopComputer existProd = desktopComputerRepo.findBySerialNumber(serialNumber);
+        DesktopComputer existProd = findBySerialNumber(serialNumber);
         existProd.setSerialNumber(dto.getSerialNumber());
         existProd.setFormFactor(dto.getFormFactor());
         existProd.setManufacturer(dto.getManufacturer());
@@ -62,5 +62,13 @@ public class DesktopComputerService implements ProductService<DesktopComputerDto
         } catch (DataAccessException ex) {
             throw new AlreadyExistsException("Computer with this serial number already exists");
         }
+    }
+
+    private DesktopComputer findBySerialNumber(String num) {
+        DesktopComputer desktopComputer = desktopComputerRepo.findBySerialNumber(num);
+        if (desktopComputer == null) {
+            throw new NotFoundException("Desktop computer not found");
+        }
+        return desktopComputer;
     }
 }

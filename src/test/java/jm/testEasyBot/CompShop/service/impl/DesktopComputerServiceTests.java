@@ -1,18 +1,11 @@
 package jm.testEasyBot.CompShop.service.impl;
 
 import jm.testEasyBot.CompShop.dto.DesktopComputerDto;
-import jm.testEasyBot.CompShop.dto.HardDriveDto;
-import jm.testEasyBot.CompShop.dto.LaptopDto;
 import jm.testEasyBot.CompShop.exeprion.AlreadyExistsException;
 import jm.testEasyBot.CompShop.exeprion.NotFoundException;
 import jm.testEasyBot.CompShop.models.DesktopComputer;
-import jm.testEasyBot.CompShop.models.HardDrive;
-import jm.testEasyBot.CompShop.models.Laptop;
 import jm.testEasyBot.CompShop.models.enums.FormFactor;
-import jm.testEasyBot.CompShop.models.enums.LaptopSize;
 import jm.testEasyBot.CompShop.repository.DesktopComputerRepo;
-import jm.testEasyBot.CompShop.repository.HardDriveRepo;
-import jm.testEasyBot.CompShop.repository.LaptopRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,23 +15,24 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-class LaptopServiceTest {
+class DesktopComputerServiceTests {
 
     @Autowired
-    private LaptopService service;
+    private DesktopComputerService service;
 
     @MockBean
-    private LaptopRepo repo;
+    private DesktopComputerRepo repo;
 
-    private final Laptop product = new Laptop();
+    private final DesktopComputer product = new DesktopComputer();
 
-    private final LaptopDto dto = new LaptopDto();
+    private final DesktopComputerDto dto = new DesktopComputerDto();
 
     @BeforeEach
     void start() {
@@ -46,39 +40,39 @@ class LaptopServiceTest {
         product.setManufacturer("Example manufacture");
         product.setPrice(1500);
         product.setQuantity(100L);
-        product.setSize(LaptopSize.INCHES_13);
+        product.setFormFactor(FormFactor.DESKTOP);
 
         dto.setSerialNumber("54321");
         dto.setManufacturer("Example manufacture 2");
         dto.setPrice(2000);
         dto.setQuantity(85L);
-        dto.setSize(LaptopSize.INCHES_15);
+        dto.setFormFactor(FormFactor.ALL_IN_ONE);
     }
 
     @Test
     void getAllProducts_ShouldReturnListOfProducts() {
-        Laptop newProduct = new Laptop();
+        DesktopComputer newProduct = new DesktopComputer();
         newProduct.setSerialNumber("54321");
         newProduct.setManufacturer("Example manufacture 2");
         newProduct.setPrice(2000);
         newProduct.setQuantity(85L);
-        newProduct.setSize(LaptopSize.INCHES_15);
+        newProduct.setFormFactor(FormFactor.ALL_IN_ONE);
 
         // Arrange
-        List<Laptop> products = Arrays.asList(
+        List<DesktopComputer> products = Arrays.asList(
             product, newProduct
         );
         when(repo.findAll()).thenReturn(products);
 
         // Act
-        List<LaptopDto> result = service.getAllProducts();
+        List<DesktopComputerDto> result = service.getAllProducts();
 
         // Assert
         assertThat(result).hasSize(2);
         assertEquals("12345", result.get(0).getSerialNumber());
-        assertEquals(LaptopSize.INCHES_13, result.get(0).getSize());
+        assertEquals(FormFactor.DESKTOP, result.get(0).getFormFactor());
         assertEquals("54321", result.get(1).getSerialNumber());
-        assertEquals(LaptopSize.INCHES_15, result.get(1).getSize());
+        assertEquals(FormFactor.ALL_IN_ONE, result.get(1).getFormFactor());
     }
 
     @Test
@@ -87,11 +81,11 @@ class LaptopServiceTest {
         when(repo.findBySerialNumber("12345")).thenReturn(product);
 
         // Act
-        LaptopDto result = service.getProduct("12345");
+        DesktopComputerDto result = service.getProduct("12345");
 
         // Assert
         assertEquals("12345", result.getSerialNumber());
-        assertEquals(LaptopSize.INCHES_13, result.getSize());
+        assertEquals(FormFactor.DESKTOP, result.getFormFactor());
     }
 
     @Test
@@ -109,11 +103,11 @@ class LaptopServiceTest {
         when(repo.save(any())).thenReturn(product);
 
         // Act
-        LaptopDto result = service.addNewProduct(dto);
+        DesktopComputerDto result = service.addNewProduct(dto);
 
         // Assert
         assertEquals("12345", result.getSerialNumber());
-        assertEquals(LaptopSize.INCHES_13, result.getSize());
+        assertEquals(FormFactor.DESKTOP, result.getFormFactor());
     }
 
     @Test
@@ -129,36 +123,35 @@ class LaptopServiceTest {
     void updateProduct_ExistingProduct_ShouldReturnUpdatedProductDto() {
         // Arrange
         dto.setSerialNumber("12345");
-        dto.setSize(LaptopSize.INCHES_17);
+        dto.setFormFactor(FormFactor.NETTOP);
         when(repo.findBySerialNumber("12345")).thenReturn(product);
         when(repo.save(any())).thenReturn(product);
 
         // Act
-        LaptopDto result = service.updateProduct("12345", dto);
+        DesktopComputerDto result = service.updateProduct("12345", dto);
 
         // Assert
         assertEquals("12345", result.getSerialNumber());
-        assertEquals(LaptopSize.INCHES_17, result.getSize());
+        assertEquals(FormFactor.NETTOP, result.getFormFactor());
     }
 
     @Test
     void updateProduct_NonExistingProduct_ShouldThrowNotFoundException() {
         // Arrange
-        when(repo.findBySerialNumber("54321")).thenThrow(NotFoundException.class);
+        when(repo.findBySerialNumber("2")).thenThrow(NotFoundException.class);
 
         // Act & Assert
-        assertThrows(NotFoundException.class, () -> service.updateProduct("54321", dto));
+        assertThrows(NotFoundException.class, () -> service.updateProduct("2", dto));
     }
 
     @Test
     void updateProduct_DuplicateSerialNumber_ShouldThrowAlreadyExistsException() {
         // Arrange
-        dto.setSize(LaptopSize.INCHES_17);
+        dto.setFormFactor(FormFactor.NETTOP);
         when(repo.findBySerialNumber("12345")).thenReturn(product);
         when(repo.save(any())).thenThrow(AlreadyExistsException.class);
 
         // Act & Assert
         assertThrows(AlreadyExistsException.class, () -> service.updateProduct("12345", dto));
     }
-
 }

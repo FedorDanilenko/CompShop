@@ -29,7 +29,7 @@ public class MonitorService implements ProductService<MonitorDto> {
     @Override
     public MonitorDto getProduct(String serNum) {
         try {
-            return MonitorMapper.MAPPER.toDto(monitorRepo.findBySerialNumber(serNum));
+            return MonitorMapper.MAPPER.toDto(findBySerialNumber(serNum));
         } catch (DataAccessException ex) {
             throw new NotFoundException("Monitor not found");
         }
@@ -49,7 +49,7 @@ public class MonitorService implements ProductService<MonitorDto> {
 
     @Override
     public MonitorDto updateProduct(String serialNumber, MonitorDto dto) {
-        Monitor existProd = monitorRepo.findBySerialNumber(serialNumber);
+        Monitor existProd = findBySerialNumber(serialNumber);
         existProd.setSerialNumber(dto.getSerialNumber());
         existProd.setDiagonalSize(dto.getDiagonalSize());
         existProd.setManufacturer(dto.getManufacturer());
@@ -62,5 +62,13 @@ public class MonitorService implements ProductService<MonitorDto> {
         } catch (DataAccessException ex) {
             throw new AlreadyExistsException("Monitor with this serial number already exists");
         }
+    }
+
+    private Monitor findBySerialNumber(String num) {
+        Monitor monitor = monitorRepo.findBySerialNumber(num);
+        if (monitor == null) {
+            throw new NotFoundException("Monitor computer not found");
+        }
+        return monitor;
     }
 }
