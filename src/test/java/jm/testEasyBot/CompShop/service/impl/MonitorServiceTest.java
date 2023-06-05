@@ -1,20 +1,15 @@
 package jm.testEasyBot.CompShop.service.impl;
 
-import jm.testEasyBot.CompShop.dto.LaptopDto;
 import jm.testEasyBot.CompShop.dto.MonitorDto;
 import jm.testEasyBot.CompShop.exeprion.AlreadyExistsException;
 import jm.testEasyBot.CompShop.exeprion.NotFoundException;
-import jm.testEasyBot.CompShop.models.Laptop;
 import jm.testEasyBot.CompShop.models.Monitor;
-import jm.testEasyBot.CompShop.models.enums.LaptopSize;
-import jm.testEasyBot.CompShop.repository.LaptopRepo;
 import jm.testEasyBot.CompShop.repository.MonitorRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;

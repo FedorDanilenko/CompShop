@@ -1,17 +1,10 @@
 package jm.testEasyBot.CompShop.service.impl;
 
-import jm.testEasyBot.CompShop.dto.DesktopComputerDto;
-import jm.testEasyBot.CompShop.dto.HardDriveDto;
 import jm.testEasyBot.CompShop.dto.LaptopDto;
 import jm.testEasyBot.CompShop.exeprion.AlreadyExistsException;
 import jm.testEasyBot.CompShop.exeprion.NotFoundException;
-import jm.testEasyBot.CompShop.models.DesktopComputer;
-import jm.testEasyBot.CompShop.models.HardDrive;
 import jm.testEasyBot.CompShop.models.Laptop;
-import jm.testEasyBot.CompShop.models.enums.FormFactor;
 import jm.testEasyBot.CompShop.models.enums.LaptopSize;
-import jm.testEasyBot.CompShop.repository.DesktopComputerRepo;
-import jm.testEasyBot.CompShop.repository.HardDriveRepo;
 import jm.testEasyBot.CompShop.repository.LaptopRepo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
